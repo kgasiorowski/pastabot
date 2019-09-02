@@ -4,13 +4,17 @@ import os
 import random
 
 pastapath = './pastas/'
+PREFIX = '%'
+modeswitch = PREFIX + 'bot'
+clean = PREFIX + 'clean'
 
 
 class Client(discord.Client):
 
-    async def on_ready(self):
-        print(f'Logged on as {self.user}')
+    def __init__(self):
+        super(Client, self).__init__()
         self.pastas = []
+        self.enabled = True
 
         print('Loading pastas')
 
@@ -21,9 +25,31 @@ class Client(discord.Client):
 
         print('Pastas loaded!')
 
+    async def on_ready(self):
+        print(f'Logged on as {self.user}')
+
     async def on_message(self, message):
         if message.author == self.user:
             return
+
+        if message.content.startswith(modeswitch):
+            self.enabled = not self.enabled
+
+            if self.enabled:
+                await message.channel.send('Bot enabled.')
+            else:
+                await message.channel.send('Bot disabled.')
+
+        if not self.enabled:
+            return
+
+        if message.content.startswith(clean):
+            async for msg in message.channel.history(limit=20):
+                if msg.author == self.user:
+                    await msg.delete()
+
+            async for msg in message.channel.history(limit=1):
+                await msg.delete()
 
         if 'cse' in str(message.content).lower():
             await message.channel.send('DID SOMEONE SAY CSE??')
@@ -38,4 +64,5 @@ class Client(discord.Client):
             await message.channel.send(f'Uh, {message.author.mention}, please uh pay attention in uh, uh, class.')
 
 
-Client().run(config.token)
+client = Client()
+client.run(config.token)
