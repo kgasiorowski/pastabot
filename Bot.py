@@ -44,7 +44,13 @@ class Client(discord.Client):
             return
 
         if message.content.startswith(clean):
-            async for msg in message.channel.history(limit=20):
+
+            try:
+                limit = int(message.content.split(' ')[1])
+            except:
+                limit = 20
+
+            async for msg in message.channel.history(limit=int(limit)):
                 if msg.author == self.user:
                     await msg.delete()
 
@@ -57,8 +63,8 @@ class Client(discord.Client):
         elif 'pasta' in str(message.content).lower():
             await message.channel.send(random.choice(self.pastas))
 
-        elif 'chevy impala' in str(message.content).lower():
-            await message.channel.send('>chevy impala')
+        elif 'chevy' in str(message.content).lower() and 'impala' in str(message.content).lower():
+            await message.channel.send('> chevy impala')
 
         elif 'finch' in str(message.content).lower():
             await message.channel.send(f'Uh, {message.author.mention}, please uh pay attention in uh, uh, class.')
