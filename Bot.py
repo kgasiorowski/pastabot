@@ -25,11 +25,17 @@ class Client(discord.Client):
         if message.author == self.user:
             return
 
-        if 'CSE' in str(message.content).upper():
+        if 'cse' in str(message.content).lower():
             await message.channel.send('DID SOMEONE SAY CSE??')
 
         elif 'pasta' in str(message.content).lower():
             await message.channel.send(random.choice(self.pastas))
+
+        elif 'chevy impala' in str(message.content).lower():
+            await message.channel.send('>chevy impala')
+
+        elif 'finch' in str(message.content).lower():
+            await message.channel.send(f'Uh, {message.author.mention}, please uh pay attention in uh, uh, class.')
 
 
 Client().run(config.token)
