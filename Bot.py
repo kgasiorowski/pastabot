@@ -1,7 +1,7 @@
 import discord
 import config
-import os
 import random
+import pastas
 
 pastapath = './pastas/'
 PREFIX = '%'
@@ -13,16 +13,10 @@ class Client(discord.Client):
 
     def __init__(self):
         super(Client, self).__init__()
-        self.pastas = []
         self.enabled = True
 
         print('Loading pastas')
-
-        for filename in os.listdir('./pastas/'):
-            print(filename)
-            with open(pastapath + filename, 'r') as pastafile:
-                self.pastas.append(pastafile.read())
-
+        self.pastas = pastas.get_pastas()
         print('Pastas loaded!')
 
     async def on_ready(self):
