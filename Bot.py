@@ -51,11 +51,12 @@ class Client(discord.Client):
             async for msg in message.channel.history(limit=1):
                 await msg.delete()
 
-        if 'cse' in str(message.content).lower():
+        elif 'cse' in str(message.content).lower():
             await message.channel.send('DID SOMEONE SAY CSE??')
 
         elif 'pasta' in str(message.content).lower():
-            await message.channel.send(random.choice(self.pastas))
+            randompasta = random.choice(self.pastas)
+            await message.channel.send('> ' + randompasta[0] + '\n\n' + randompasta[1])
 
         elif 'chevy' in str(message.content).lower() and 'impala' in str(message.content).lower():
             await message.channel.send('> chevy impala')

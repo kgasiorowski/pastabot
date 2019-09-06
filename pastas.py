@@ -12,10 +12,4 @@ def get_pastas():
 
     hot_subreddit = reddit.subreddit('copypasta').hot(limit=20)
 
-    pastalist = []
-
-    for post in hot_subreddit:
-        if 0 < len(post.selftext) <= 2000:
-            pastalist.append(post.selftext)
-
-    return pastalist
+    return [(post.title, post.selftext) for post in hot_subreddit if 0 < len(post.selftext) < 2000]
